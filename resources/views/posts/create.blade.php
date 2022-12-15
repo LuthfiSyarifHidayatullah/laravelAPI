@@ -41,6 +41,12 @@
             </div>
         </div>
 
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Gambar</strong>
+                <input type="file" name="file_path" class="form-control" placeholder="file" id="chooseFile">
+            </div>
+        </div>
     
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">

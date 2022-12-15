@@ -7,6 +7,11 @@ use App\Models\{Post, Jurusan, Kelas};
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $posts = Post::latest()->paginate(5);
@@ -25,11 +30,16 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+
+        // filepath -> untuk gambar
+        // name-> untuk file seperti pdf
+
         $request->validate([
             'nama_buku' => 'required',
             'jurusan_id' => 'required',
             'kelas_id' => 'required',
-            'name' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048',
+            'name' => 'required|mimes:csv,txt,xlx,xls,pdf|max:5048',
+            'file_path' => 'required|image|mimes:png,jpg,jpeg'
 
         ]);
         // $fileModel = new Post;
@@ -47,6 +57,9 @@ class PostController extends Controller
 
         $fileName = $request->name->getClientOriginalName();
         $name = $request->name->storeAs('file', $fileName);
+
+        $image = $request->file('file_path');
+        $image->storeAs('img', $image->hashName());
         
         Post::create ([
             'nama_buku' => $request->nama_buku,
@@ -54,6 +67,7 @@ class PostController extends Controller
             'kelas_id' => $request->kelas_id,
             'url' => $request->url,
             'name' => $name,
+            'file_path' => $image->hashName()
 
         ]);
         
@@ -86,7 +100,10 @@ class PostController extends Controller
         ]);
 
         $fileName = $request->name->getClientOriginalName();
+        $fileImg = $request->name->getClientOriginalName();
+
         $name = $request->name->storeAs('file', $fileName);
+        $filePath = $request->name->storeAs('img', $fileImg);
         
         $post->update ([
             'nama_buku' => $request->nama_buku,
@@ -94,6 +111,7 @@ class PostController extends Controller
             'kelas_id' => $request->kelas_id,
             'url' => $request->url,
             'name' => $name,
+            'file_path' => $filePath
 
         ]);
         
