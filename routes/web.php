@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +17,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('app');
+    return view('auth.login');
 });
 
+Route::get('/admin/create', [AdminController::class, 'tambah']);
+
+Route::get('/admin/index', [AdminController::class, 'index']);
+
+Route::resource('admin', AdminController::class);
+
 Route::resource('posts', PostController::class);
+
+Route::get('admin/create', function() {
+    return view ('admin.tambah');
+})->name('admin.create')->middleware('auth','admin');
+
+Route::get('admin/index', function() {
+    return view ('admin.index');
+})->name('admin.index')->middleware('auth','admin');
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -34,4 +50,6 @@ Route::resource('posts', PostController::class);
 require __DIR__.'/auth.php';
 
 Auth::routes();
+
+
 

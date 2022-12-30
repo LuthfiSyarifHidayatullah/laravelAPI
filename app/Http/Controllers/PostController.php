@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Post, Jurusan, Kelas};
+use App\Models\{Post, Jurusan, Kelas, User};
 
 class PostController extends Controller
 {
@@ -38,6 +38,7 @@ class PostController extends Controller
             'nama_buku' => 'required',
             'jurusan_id' => 'required',
             'kelas_id' => 'required',
+            'author' => 'required',
             'name' => 'required|mimes:csv,txt,xlx,xls,pdf|max:5048',
             'file_path' => 'required|image|mimes:png,jpg,jpeg'
 
@@ -63,9 +64,9 @@ class PostController extends Controller
         
         Post::create ([
             'nama_buku' => $request->nama_buku,
+            'author' => $request->author,
             'jurusan_id' => $request->jurusan_id,
             'kelas_id' => $request->kelas_id,
-            'url' => $request->url,
             'name' => $name,
             'file_path' => $image->hashName()
 
@@ -100,23 +101,23 @@ class PostController extends Controller
         ]);
 
         $fileName = $request->name->getClientOriginalName();
-        $fileImg = $request->name->getClientOriginalName();
-
         $name = $request->name->storeAs('file', $fileName);
-        $filePath = $request->name->storeAs('img', $fileImg);
+
+        $image = $request->file('file_path');
+        $image->storeAs('img', $image->hashName());
         
         $post->update ([
             'nama_buku' => $request->nama_buku,
+            'author' => $request->author,
             'jurusan_id' => $request->jurusan_id,
             'kelas_id' => $request->kelas_id,
-            'url' => $request->url,
             'name' => $name,
-            'file_path' => $filePath
+            'file_path' => $image->hashName()
 
         ]);
         
         return redirect()->route('posts.index')
-                        ->with('success','Data berhasil ditambah.'); 
+                        ->with('success','Data berhasil diubah.'); 
 
     }
 
@@ -125,6 +126,6 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index')
-                        ->with('success','Post deleted successfully');
+                        ->with('success','Data Berhasil dihapus');
     }
 }

@@ -8,7 +8,7 @@ class Post extends Model
     use HasFactory;
     protected $fillable = [
         'nama_buku','jurusan_id', 'kelas_id', 'url', 'name',
-        'file_path'
+        'file_path', 'author'
     ];
 
     public function jurusan() 
@@ -21,4 +21,8 @@ class Post extends Model
         return $this->belongsTo(Kelas::class);
     }
     
+    public function users() 
+    {
+        return $this->belongsTo(Users::class);
+    }
 }

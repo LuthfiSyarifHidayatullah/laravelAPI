@@ -1,14 +1,13 @@
-@extends('layouts.app')
+@extends('posts.admin-dash-layout')
+@section('title', 'index')
+
 @section('content')
 <div class="container">    
-<div class="row mt-5 mb-5">
+<div class="row mt-5 mb-3">
         
         <div class="col-lg-12 margin-tb">
             
-            <div class="float-right">
-                <a class="btn btn-success" href="{{ route('posts.create') }}"> Tambah Buku</a>
-            </div>
-        </div>
+          
     </div>
 
     @if ($message = Session::get('success'))
@@ -24,7 +23,7 @@
             <th>Jurusan</th>
             <th>Kelas</th>
            <th>File</th>
-           <th>gambar</th>
+           <th>Author</th>
             <th width="300px"class="text-center">Action</th>
         </tr>
         @foreach ($posts as $post)
@@ -34,8 +33,8 @@
             <td>{{ $post->jurusan->nama_jurusan ?? 'None' }}</td>
             <td>{{ $post->kelas->nama_kelas ?? 'None' }}</td>
             <td>{{ $post->name }}</td>
-            <td class="text-center"><img src="{{ Storage::url('public/img/').$post->file_path }}" class="rounded" style="width: 150px"></td>
-            <td class="text-center">
+            <td>{{ $post->author }}</td>
+                <td class="text-center">
                 <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
 
                     <a class="btn btn-primary btn-sm" href="{{ route('posts.edit',$post->id) }}">Edit</a>

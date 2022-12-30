@@ -1,14 +1,14 @@
-@extends('template')
+@extends('posts.admin-dash-layout')
+@section('title', 'index')
 
 @section('content')
-<div class="row mt-5 mb-5">
+<div class="container">
+<div class="row mt-3 mb-3">
     <div class="col-lg-12 margin-tb">
         <div class="float-left">
-            <h2>Create New Post</h2>
+            <h2>Tambah Buku</h2>
         </div>
-        <div class="float-right">
-            <a class="btn btn-secondary" href="{{ route('posts.index') }}"> Back</a>
-        </div>
+       
     </div>
 </div>
 
@@ -27,28 +27,28 @@
     @csrf
 
      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
                 <strong>Nama buku:</strong>
                 <input type="text" name="nama_buku" class="form-control" placeholder="nama buku">
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
                 <strong>File</strong>
                 <input type="file" name="name" class="form-control" placeholder="file" id="chooseFile">
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
                 <strong>Gambar</strong>
                 <input type="file" name="file_path" class="form-control" placeholder="file" id="chooseFile">
             </div>
         </div>
     
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
                 <label for="jurusan">Jurusan</label>
                 <select name="jurusan_id" id="jurusan" class="form-control">
@@ -60,7 +60,9 @@
             </div>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12">
+
+
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
                 <label for="kelas">Kelas</label>
                 <select name="kelas_id" id="kelas" class="form-control">
@@ -72,17 +74,19 @@
             </div>
         </div>
 
-
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-10 col-sm-10 col-md-10">
             <div class="form-group">
-                <strong>Url:</strong>
-                <textarea class="form-control" style="height:150px" name="url" placeholder="url"></textarea>
+                <strong>Nama Pengirim:</strong>
+                <input type="text" name="author" class="form-control" placeholder="{{ Auth::user()->name }}" value=" {{ Auth::user()->name }}">
             </div>
         </div>
+
+    
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
 
 </form>
+</div>
 @endsection
