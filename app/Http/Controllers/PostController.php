@@ -94,28 +94,95 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
+        // if($request->name == null){
+        //     return 'null';
+        //     }else if($request->name != null){
+        //     return 'ada';
+        //     }else if($request->name == ''){
+        //     return 'string kosong';
+        //     }
         $request->validate([
             'nama_buku' => 'required',
             'jurusan_id' => 'required',
             'kelas_id' => 'required',
         ]);
+        // if($request->name != null) {
+        //     $fileName = $request->name->getClientOriginalName();
+        //     $name = $request->name->storeAs('file', $fileName);
 
-        $fileName = $request->name->getClientOriginalName();
-        $name = $request->name->storeAs('file', $fileName);
-
-        $image = $request->file('file_path');
-        $image->storeAs('img', $image->hashName());
+        // }
+        // if($request->file('file_path') != null) {
+        //     $image = $request->file('file_path');
+        //     $image->storeAs('img', $image->hashName());
         
-        $post->update ([
-            'nama_buku' => $request->nama_buku,
-            'author' => $request->author,
-            'jurusan_id' => $request->jurusan_id,
-            'kelas_id' => $request->kelas_id,
-            'name' => $name,
-            'file_path' => $image->hashName()
-
-        ]);
+        // }
         
+        // $post->update ([
+        //     'nama_buku' => $request->nama_buku,
+        //     'author' => $request->author,
+        //     'jurusan_id' => $request->jurusan_id,
+        //     'kelas_id' => $request->kelas_id,
+        //     'name' => $name,
+        //     'file_path' => $image->hashName()
+
+        // ]);
+
+        if($request->name != null && $request->file('file_path')!= null ) { 
+        // buat file 
+        $fileName = $request->name->getClientOriginalName(); 
+        $name = $request->name->storeAs('file', $fileName); 
+ 
+        //buat image 
+        $image = $request->file('file_path'); 
+        $image->storeAs('img', $image->hashName()); 
+ 
+        $post->update ([ 
+            'nama_buku' => $request->nama_buku, 
+            'author' => auth()->user()->name, 
+            'jurusan_id' => $request->jurusan_id, 
+            'kelas_id' => $request->kelas_id, 
+            'name' => $name, 
+            'file_path' => $image->hashName() 
+ 
+        ]); 
+
+        } else if ( $request->name != null && $request->file('file_path') == null){ 
+        // buat file 
+        $fileName = $request->name->getClientOriginalName(); 
+        $name = $request->name->storeAs('file', $fileName); 
+ 
+        $post->update ([ 
+            'nama_buku' => $request->nama_buku, 
+            'author' => auth()->user()->name,
+            'jurusan_id' => $request->jurusan_id, 
+            'kelas_id' => $request->kelas_id, 
+            'name' => $name, 
+ 
+        ]); 
+         } else if($request->name == null && $request->file('file_path') != null){ 
+ 
+        //buat image 
+        $image = $request->file('file_path'); 
+        $image->storeAs('img', $image->hashName()); 
+ 
+            $post->update ([ 
+            'nama_buku' => $request->nama_buku, 
+            'author' => auth()->user()->name, 
+            'jurusan_id' => $request->jurusan_id, 
+            'kelas_id' => $request->kelas_id, 
+         'file_path' => $image->hashName() 
+        ]); 
+ 
+        }else if($request->name == null && $request->file('file_path') == null){ 
+        $post->update ([ 
+            'nama_buku' => $request->nama_buku, 
+            'author' => auth()->user()->name, 
+            'jurusan_id' => $request->jurusan_id, 
+            'kelas_id' => $request->kelas_id, 
+        ]); 
+        }
+
+         
         return redirect()->route('posts.index')
                         ->with('success','Data berhasil diubah.'); 
 
