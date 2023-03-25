@@ -31,8 +31,11 @@
             <td>{{ $adm->email }}</td>
             <td>{{ $adm->role }}</td>
         </tr>
+       
         @endforeach
+        
     </table>
+    
 </div>
 
 

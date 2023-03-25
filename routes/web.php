@@ -21,6 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/admin/create', [AdminController::class, 'tambah']);
+Route::get('/posts/index', [PostsController::class, 'index']);
+
 
 Route::get('/admin/index', [AdminController::class, 'index']);
 

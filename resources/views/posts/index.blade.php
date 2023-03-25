@@ -5,10 +5,7 @@
 <div class="container">    
 <div class="row mt-5 mb-3">
         
-        <div class="col-lg-12 margin-tb">
-            
-          
-    </div>
+       
 
     @if ($message = Session::get('success'))
     <div class="alert alert-success">
@@ -18,7 +15,7 @@
 
     <table class="table table-bordered">
         <tr>
-            <th width="10px" class="text-center">No</th>
+           
             <th>Nama buku</th>
             <th>Jurusan</th>
             <th>Kelas</th>
@@ -28,7 +25,7 @@
         </tr>
         @foreach ($posts as $post)
         <tr>
-            <td class="text-center"></td>
+          
             <td>{{ $post->nama_buku }}</td>
             <td>{{ $post->jurusan->nama_jurusan ?? 'None' }}</td>
             <td>{{ $post->kelas->nama_kelas ?? 'None' }}</td>
@@ -49,6 +46,9 @@
         @endforeach
     </table>
 </div>
+
+{{ $posts->links() }}
+
 
 
 @endsection
